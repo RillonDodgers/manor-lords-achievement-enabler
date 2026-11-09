@@ -1,8 +1,8 @@
 # Achievement Enabler
 
-Experimental Lua-only UE4SS mod for Manor Lords. Returns `true` from `IsAchivementAllowed()` and logs every hook invocation.
+Lua-only UE4SS mod for Manor Lords. Returns `true` from `IsAchivementAllowed()` and logs every hook invocation.
 
-**Testing build:** live achievement unlocking is not yet verified. Native calls may bypass the reflected hook.
+Released as **1.0.0** following user testing: Steam awarded “Start the game” while the mod was installed. The supplied logs confirm registration but contain no hook-invocation messages, so that unlock does not establish that this override caused it. Native calls may bypass the reflected hook.
 
 ## Requirements
 
@@ -36,7 +36,7 @@ Check `ue4ss/UE4SS.log` for:
 
 ```text
 [AchievementEnabler] Hook ready: /Script/SystemCore.SpecialFlags:IsAchivementAllowed ...
-[AchievementEnabler] Loaded v0.1.0-beta.1. Waiting for game calls; each hook invocation will be logged.
+[AchievementEnabler] Loaded v1.0.0. Waiting for game calls; each hook invocation will be logged.
 [AchievementEnabler] Hook fired #1: IsAchivementAllowed -> true
 ```
 
@@ -62,4 +62,4 @@ python .github/scripts/package.py --output-dir dist
 
 ## Validation
 
-Local Lua checks cover registration, the `true` return, invocation logging, duplicate-load protection, and registration failure reporting. The installable ZIP and installed payload are checked against the repository. Live hook execution and Steam achievement unlocking are pending.
+Local Lua checks cover registration, the `true` return, invocation logging, duplicate-load protection, and registration failure reporting. The installable ZIP and installed payload are checked against the repository. The user reported Steam awarding “Start the game” with the mod installed. Live hook execution and coverage of other achievements remain unverified.
