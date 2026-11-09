@@ -1,0 +1,35 @@
+name: Package mod
+
+on:
+  push:
+    branches: [main]
+    paths: [VERSION]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Create Nexus Mods ZIP
+        id: package
+        run: python3 .github/scripts/package.py --output-dir "$RUNNER_TEMP"
+
+      - name: Upload installable ZIP
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          path: ${{ steps.package.outputs.path }}
+          archive: false
+          if-no-files-found: error
+
+      - name: Publish matching release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PACKAGE_PATH: ${{ steps.package.outputs.path }}
+        run: python3 .github/scripts/release.py "$PACKAGE_PATH"
